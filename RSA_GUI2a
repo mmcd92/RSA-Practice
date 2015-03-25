@@ -1,0 +1,92 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import java.util.*;
+import javax.swing.*;
+
+public class RSA_GUI2 extends JFrame implements ItemListener
+{
+     private Scanner in;
+     private RSA_Simulator_2 rsa;
+     //private final static String MESSAGE = "Invalid choice!! Enter a valid choice!";
+     
+     private TextField inputLine = new TextField(30);
+     private TextArea encryptedOutput = new TextArea("",10,30,TextArea.SCROLLBARS_VERTICAL_ONLY);
+     private TextField decryptedOutput = new TextField(30);
+     
+     private Label input = new Label("Enter a message to be encrypted:");
+     private Label output1 = new Label("The encrypted message:");
+     private Label output2 = new Label("The decrypted message:");
+     
+     public RSA_GUI2()
+     {
+          rsa = new RSA_Simulator_2();
+          
+          createTextBox();
+     }//end constructor
+     
+     public void createTextBox()
+     {
+          JPanel original = new JPanel();
+          original.setLayout(new GridLayout(2,1));
+          original.add(input,BorderLayout.NORTH);
+          original.add(inputLine,BorderLayout.SOUTH);
+          
+          JPanel encrypt = new JPanel(new BorderLayout());
+          encrypt.add(output1,BorderLayout.NORTH);
+          encrypt.add(encryptedOutput);
+          
+          JPanel decrypt = new JPanel(new BorderLayout());
+          decrypt.add(output2,BorderLayout.NORTH);
+          decrypt.add(decryptedOutput,BorderLayout.SOUTH);
+          
+          add(original,BorderLayout.NORTH);
+          add(encrypt,BorderLayout.CENTER);
+          add(decrypt,BorderLayout.SOUTH);
+          
+          inputLine.addActionListener(new ActionListener()
+          {
+               public void actionPerformed(ActionEvent event)
+               {
+                    try
+                    {
+                         String s = inputLine.getText();
+                         //list.add(new Integer(Integer.valueOf(s).intValue()));
+                         //inputLine.setText("");
+                         rsa.setMessage(s);
+                         rsa.encryptMessage();
+                         rsa.decryptMessage();
+                         encryptedOutput.setText(rsa.getEncryptedMessage());
+                         //removeTemp();
+                         decryptedOutput.setText(rsa.getDecryptedMessage());
+                    }
+                    catch(Exception e)
+                    {
+                         e.printStackTrace();
+                    }
+                    
+               }//end actionPerfomred
+          }//end un-named class
+          );//end add ActionListener
+     }//end createTextBox
+
+     
+     public void itemStateChanged(ItemEvent e)
+     {
+          
+     }//end itemStateChanged
+     
+     
+     public static void main(String guitar[])
+     {
+          RSA_GUI2 frame = new RSA_GUI2();
+          
+          frame.setTitle("Encryption");
+          frame.setSize(600,400);
+          frame.setLocationRelativeTo(null);
+          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          
+          frame.setVisible(true);
+     }
+     
+}//end MyApplet
